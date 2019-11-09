@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.xxpay.dal.dao.mapper.AgentInfoMapper" >
+  <resultMap id="BaseResultMap" type="org.xxpay.dal.dao.model.AgentInfo" >
+    <id column="AgentId" property="agentId" jdbcType="VARCHAR" />
+    <result column="AgentName" property="agentname" jdbcType="VARCHAR" />
+    <result column="CreateTime" property="createTime" jdbcType="TIMESTAMP" />
+
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    AgentId, AgentName, CreateTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.xxpay.dal.dao.model.AgentInfoExample">
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_agent
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_agent
+    where AgentId = #{agentId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_agent
+    where AgentId = #{agentId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.xxpay.dal.dao.model.AgentInfoExample" >
+    delete from t_agent
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.xxpay.dal.dao.model.AgentInfo" >
+    insert into t_agent (AgentId, AgentName,
+      CreateTime)
+    values (#{agentId,jdbcType=VARCHAR}, #{agentname,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.xxpay.dal.dao.model.AgentInfo" >
+    insert into t_agent
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="agentId != null" >
+        AgentId,
+      </if>
+      <if test="agentname != null" >
+        AgentName,
+      </if>
+
+      <if test="createTime != null" >
+        CreateTime,
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="agentId != null" >
+        #{agentId,jdbcType=VARCHAR},
+      </if>
+      <if test="agentname != null" >
+        #{agentname,jdbcType=VARCHAR},
+      </if>
+
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.xxpay.dal.dao.model.AgentInfoExample" resultType="java.lang.Integer" >
+    select count(*) from t_agent
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_agent
+    <set >
+      <if test="record.agentId != null" >
+        AgentId = #{record.agentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agentname != null" >
+        AgentName = #{record.agentname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CreateTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_agent
+    set AgentId = #{record.agentId,jdbcType=VARCHAR},
+      AgentName = #{record.agentname,jdbcType=VARCHAR},
+      CreateTime = #{record.createTime,jdbcType=TIMESTAMP}
+
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.xxpay.dal.dao.model.AgentInfo" >
+    update t_agent
+    <set >
+      <if test="agentname != null" >
+        AgentName = #{agentname,jdbcType=VARCHAR},
+      </if>
+
+      <if test="createTime != null" >
+        CreateTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+
+    </set>
+    where AgentId = #{agentId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.xxpay.dal.dao.model.AgentInfo" >
+    update t_agent
+    set AgentName = #{agentname,jdbcType=VARCHAR},
+      CreateTime = #{createTime,jdbcType=TIMESTAMP}
+    where AgentId = #{agentId,jdbcType=VARCHAR}
+  </update>
+</mapper>
